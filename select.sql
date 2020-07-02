@@ -30,17 +30,19 @@ having avg(sc1.score) >= 60
 
 # 4.Query the SQL statement of student information that does not have grades in the student_course table
 
-select 
-s.id, s.age, s.name, s.sex, sc.courseId, c.name course, c.teacherId
-from student as s, course as c, student_course as sc 
-where s.id = sc.studentId and c.id = sc.courseId
+select s.*
+from student s
+join
+(select distinct studentId from student_course where score = 0) sc
+on s.id = sc.studentId
 
 # 5.Query all SQL with grades
 
-select 
-*
-from student as s, course as c, student_course as sc 
-where s.id = sc.studentId and c.id = sc.courseId
+select s.*
+from student s
+join
+(select distinct studentId from student_course where score <> 0) sc
+on s.id = sc.studentId
 
 # 6.Inquire about the information of classmates who have numbered 1 and also studied the course numbered 2
 
